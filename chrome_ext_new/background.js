@@ -1,3 +1,11 @@
+function httpGet(url)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", url, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
 var callback = function(details) {
     alert("done")
     for (var i = 0; i < details.responseHeaders.length; ++i) {
@@ -8,9 +16,13 @@ var callback = function(details) {
                     'Cookie': cookie
                 }
             }).then(r => r.json()).then(result => {
+                // Download academic calendar from Google Calendar
+                calendar = httpGet('https://calendar.google.com/calendar/ical/c_lublpqqigfijlbc1l4rudcpi5s@group.calendar.google.com/public/basic.ics')
+                alert(calendar)
                 var classes = result['semesters'][0]['classes']
                 for (var j = 0; j < classes.length; ++j) {
                     var classname = classes[j]['course_code']
+                    var 
                     for (var k = 0; k < classes[j]['sections'].length; ++k) {
                         var curr_section = classes[j]['sections'][k]
                         var section_schedule = curr_section['schedules']['recurring'][0]
@@ -21,7 +33,7 @@ var callback = function(details) {
                         }
                     }
                 }
-                
+
             })
             break;
         }
